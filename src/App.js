@@ -8,7 +8,6 @@ function App() {
     <React.Fragment>
       <ToastContainer />
       <div className="container">
-        Hello!!
         <Switch>
           <Route path="/login" component={LoginForm} />
         </Switch>

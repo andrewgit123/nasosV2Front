@@ -1,7 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
 import Joi from "joi-browser";
+import Form from "./common/form";
 
-class LoginForm extends Component {
+class LoginForm extends Form {
   state = {
     data: {
       username: "",
@@ -13,46 +14,24 @@ class LoginForm extends Component {
     username: Joi.string().required().label("Username"),
     password: Joi.string().required().label("Password"),
   };
-  handleChange = ({ currentTarget: input }) => {
-    const { name, value } = input;
-    const target = { [name]: value };
-    const schema = { [name]: this.schema[name] };
 
-    const errors = { ...this.state.errors };
-    errors[name] = "";
-
-    const { error } = Joi.validate(target, schema);
-    if (error) {
-      errors[name] = error.details[0].message;
-    }
-
-    this.setState({ errors });
-
-    const data = { ...this.state.data };
-    data[name] = value;
-    this.setState({ data });
-  };
+  doSubmit() {
+    console.log("do submit");
+  }
   render() {
-    const { errors, data } = this.state;
     return (
-      <form>
-        Login Form
-        <div className="form-group">
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            className="form-control"
-            name="username"
-            id="username"
-            aria-describedby="username"
-            value={data.username}
-            onChange={this.handleChange}
-          />
-          {errors["username"] && (
-            <div className="alert alert-danger">{errors["username"]}</div>
-          )}
-        </div>
-      </form>
+      <div>
+        <h1>Login</h1>
+        <form onSubmit={this.handleSubmit}>
+          {this.renderInput({ name: "username", label: "Username" })}
+          {this.renderInput({
+            name: "password",
+            label: "Password",
+            type: "password",
+          })}
+          {this.renderButton("Save Form")}
+        </form>
+      </div>
     );
   }
 }
